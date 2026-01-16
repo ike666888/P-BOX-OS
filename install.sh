@@ -69,6 +69,7 @@ fi
 
 # 6. 恢复容器
 echo -e "\n${YELLOW}正在解压并恢复容器...${NC}"
+# --unique 至关重要，防止 MAC 冲突
 pct restore $CT_ID "$BACKUP_FILE" --storage local-lvm --unprivileged 1 --force --unique >/dev/null 2>&1
 if [ $? -ne 0 ]; then
     echo -e "${YELLOW}未找到 local-lvm 存储，尝试使用 local 存储...${NC}"
@@ -104,5 +105,6 @@ pct exec $CT_ID -- bash -c "sysctl -w net.ipv4.ip_forward=1 >/dev/null 2>&1"
 REAL_IP=$(echo $USER_IP | cut -d'/' -f1)
 echo -e "${GREEN}=============================================${NC}"
 echo -e "${GREEN} 🎉 安装成功！ ${NC}"
-echo -e " 管理面板地址: ${YELLOW}http://${REAL_IP}:8383${NC}"
+echo -e " 管理面板:    ${YELLOW}http://${REAL_IP}:8383${NC}"
+echo -e " Root 密码:   ${YELLOW}aa123123${NC}"
 echo -e "${GREEN}=============================================${NC}"
